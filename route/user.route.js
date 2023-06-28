@@ -47,6 +47,7 @@ userRouter.post(
 // /api/user/create
 userRouter.post(
     "/create",
+    authMiddleware.isAdmin,
     userMiddleware.checkRequire,
     userMiddleware.checkExist,
     userController.create,
