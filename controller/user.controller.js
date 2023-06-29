@@ -22,11 +22,22 @@ const UserController = {
     },
     getAlls: async (req, res) => {
         try {
-            const users = await User.find();
-            return res.status(200).json({
-                message: "Users get successfully",
-                users: users,
-            });
+            const { position } = req.params;
+            if (position == "all") {
+                const users = await User.find().populate("position");
+                return res.status(200).json({
+                    message: "Users get successfully",
+                    users: users,
+                });
+            } else {
+                const users = await User.find({
+                    position: position,
+                }).populate("position");
+                return res.status(200).json({
+                    message: "Users get successfully",
+                    users: users,
+                });
+            }
         } catch (error) {
             return res.status(500).json({
                 message: "Server error",
@@ -38,7 +49,7 @@ const UserController = {
     getUserById: async (req, res) => {
         try {
             const id = req.body.verify_id || req.params.id;
-            const data = await User.findById(id).select("-password");
+            const data = await User.findById(id).populate("position");
 
             if (data) {
                 return res.status(200).json({

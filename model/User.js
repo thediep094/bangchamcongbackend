@@ -13,6 +13,7 @@ const userSchema = new Schema(
         role: { type: String, enum: ["admin", "user"], default: "user" },
         gender: { type: String, default: "", required: true },
         salary: { type: Number, required: true, default: 0 },
+        position: { type: Schema.Types.ObjectId, ref: "Position" },
         face: {
             type: Array,
         },

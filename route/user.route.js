@@ -32,7 +32,7 @@ userRouter.put(
 
 // /api/user/admin/getallusers
 userRouter.post(
-    "/admin/getallusers",
+    "/admin/getallusers/:position",
     authMiddleware.isAdmin,
     userController.getAlls,
 );

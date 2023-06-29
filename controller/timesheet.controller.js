@@ -1,4 +1,5 @@
 const Timesheet = require("../model/Timesheet");
+const User = require("../model/User");
 
 const TimesheetController = {
     create: async (req, res) => {
@@ -20,10 +21,16 @@ const TimesheetController = {
         try {
             const timesheets = await Timesheet.find({
                 id: id,
+            }).sort({ createdAt: -1 });
+
+            const user = await User.findOne({
+                id: id,
             });
+
             return res.status(200).json({
                 message: "Success getting Timesheet",
                 data: timesheets,
+                user: user,
             });
         } catch (error) {
             return res.status(500).json({
@@ -45,6 +52,11 @@ const TimesheetController = {
             if (year) {
                 matchQuery.year = year;
             }
+
+            const user = await User.findOne({
+                id: id,
+            }).populate("position");
+
             const timesheets = await Timesheet.aggregate([
                 {
                     $addFields: {
@@ -55,11 +67,12 @@ const TimesheetController = {
                 {
                     $match: matchQuery,
                 },
-            ]);
+            ]).sort({ createdAt: -1 });
 
             return res.status(200).json({
                 message: `Success getting Timesheets for month ${month} year ${year}`,
                 data: timesheets,
+                user: user,
             });
         } catch (error) {
             return res.status(500).json({
