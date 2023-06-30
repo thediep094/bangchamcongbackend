@@ -31,11 +31,7 @@ userRouter.put(
 );
 
 // api/admin/update/face/id
-userRouter.put(
-    "/admin/update/face/:id",
-    authMiddleware.isAdmin,
-    userController.updateFace,
-);
+userRouter.put("/admin/update/face/:id", userController.updateFace);
 
 // /api/user/admin/getallusers
 userRouter.post(
