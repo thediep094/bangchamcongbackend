@@ -30,6 +30,13 @@ userRouter.put(
     userController.update,
 );
 
+// api/admin/update/face/id
+userRouter.put(
+    "/admin/update/face/:id",
+    authMiddleware.isAdmin,
+    userController.updateFace,
+);
+
 // /api/user/admin/getallusers
 userRouter.post(
     "/admin/getallusers/:position",
