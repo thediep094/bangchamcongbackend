@@ -53,7 +53,13 @@ const LeaveController = {
 
     get: async (req, res) => {
         try {
-            const leaves = await Leave.find().sort({ createdAt: -1 });
+            const leaves = await Leave.find()
+                .sort({ createdAt: -1 })
+                .populate({
+                    path: "user",
+                    select: "fullname date username",
+                })
+                .exec();
             return res.status(200).json({
                 message: "Success",
                 data: leaves,
@@ -71,7 +77,12 @@ const LeaveController = {
             const userId = req.params.id;
             const leave = await Leave.find({
                 user: userId,
-            });
+            })
+                .populate({
+                    path: "user",
+                    select: "fullname date username",
+                })
+                .exec();
             if (!leave) {
                 return res.status(404).json({
                     message: "Leave not found",
