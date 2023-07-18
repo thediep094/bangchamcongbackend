@@ -78,6 +78,7 @@ const LeaveController = {
             const leave = await Leave.find({
                 user: userId,
             })
+                .sort({ createdAt: -1 })
                 .populate({
                     path: "user",
                     select: "fullname date username",
