@@ -16,6 +16,30 @@ const TimesheetController = {
             });
         }
     },
+
+    getById: async (req, res) => {
+        const { id } = req.params; // Assuming the id is passed as a route parameter
+        try {
+            const timesheet = await Timesheet.findById(id);
+
+            if (!timesheet) {
+                return res.status(404).json({
+                    message: "Timesheet not found",
+                });
+            }
+
+            return res.status(200).json({
+                message: "Success getting Timesheet",
+                data: timesheet,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                message: "Server error",
+                error: error,
+            });
+        }
+    },
+
     getTimesheetById: async (req, res) => {
         const { id } = req.body;
         try {
@@ -102,6 +126,33 @@ const TimesheetController = {
             return res.status(200).json({
                 message: `Success getting Timesheets for year ${year}`,
                 data: timesheets,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                message: "Server error",
+                error: error,
+            });
+        }
+    },
+
+    updateById: async (req, res) => {
+        const { id, check_in, check_out } = req.body;
+        try {
+            const updatedTimesheet = await Timesheet.findByIdAndUpdate(
+                id,
+                { check_in, check_out },
+                { new: true },
+            );
+
+            if (!updatedTimesheet) {
+                return res.status(404).json({
+                    message: "Timesheet not found",
+                });
+            }
+
+            return res.status(200).json({
+                message: "Success updating Timesheet",
+                data: updatedTimesheet,
             });
         } catch (error) {
             return res.status(500).json({

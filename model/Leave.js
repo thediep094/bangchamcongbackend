@@ -4,8 +4,13 @@ const Schema = mongoose.Schema;
 const leaveSchema = new Schema(
     {
         user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        startDate: { type: Date, required: true },
-        endDate: { type: Date, required: true },
+        timesheet: {
+            type: Schema.Types.ObjectId,
+            ref: "Timesheet",
+            required: true,
+        },
+        check_in: { type: Date, required: true },
+        check_out: { type: Date, required: true },
         reason: { type: String, required: true },
         status: {
             type: String,
