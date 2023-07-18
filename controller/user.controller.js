@@ -129,6 +129,7 @@ const UserController = {
     updateFace: async (req, res) => {
         try {
             const { id } = req.params;
+            console.log(req.body);
             const data = await User.findOneAndUpdate(
                 {
                     id: id,
